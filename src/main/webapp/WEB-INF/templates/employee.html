@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/page :: header"> head -  - loading failed </head>
+
+<body>
+<div class="container">
+
+<h1 th:replace="fragments/page :: title"> title - loading failed </h1>
+
+<form th:action = "@{/employee/{id} (id = ${employee.id})}"
+       th:object = "${employee}"  method = "POST">
+
+     <div> Id: &nbsp;
+         <span th:text="${employee.id}"> - loading failed </span>
+     </div>
+
+     <div class = "form-group">
+         <label for = "name-input"> Name : </label>
+         <input th:field = "*{name}" id = "name-input" class = "form-control" />
+     </div>
+
+     <button type = "submit" class = "btn btn-primary"> Modify Employee </button>
+</form>
+
+<!--    <div> Name: &nbsp;-->
+<!--        <span th:text="${certainEmployee.name}"> - loading failed </span></div>-->
+
+    <p>
+        <br><br><br>
+        <a th:href="@{/}"> <b> Back </b> </a>
+    </p>
+</div>
+</body>
+</html>

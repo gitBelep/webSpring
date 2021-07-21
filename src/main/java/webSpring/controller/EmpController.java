@@ -35,14 +35,5 @@ public class EmpController {
         return new ModelAndView("index", "employeeList",
                 empService.listEmployees());
     }
-//version: 0
-//    @RequestMapping("/")
-//    public ModelAndView listEmployees() {
-//        return new ModelAndView("index", "message", "Hello Thymeleaf!"); }
-//version: 1
-//    @RequestMapping( "/" )
-//    public ModelAndView listEmployees(){
-//        return new ModelAndView("index", "employeeList",
-//            List.of( new Employee("A"), new Employee("B"))); }
 
 }

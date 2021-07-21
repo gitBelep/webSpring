@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the page</title>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/resources/css/bootstrap.css}" />
+</head>
+<body>
+<!--<div th:text="${employeeList}"> Hát igen, message </div>-->
+<div class="container">
+
+<table class="table table-striped">
+    <thead>
+    <tr> <th> Id </th> <th> Names </th> </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="employee : ${employeeList}">
+        <tr>
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.name}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+</div>
+</body>
+</html>

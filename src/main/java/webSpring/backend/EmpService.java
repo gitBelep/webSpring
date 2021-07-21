@@ -1,7 +1,7 @@
 package webSpring.backend;
 
 import org.springframework.stereotype.Service;
-import webSpring.Employee;
+import webSpring.model.Employee;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,13 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class EmpService {
     private AtomicInteger id = new AtomicInteger();
-    private List<webSpring.Employee> employeeList = Collections.synchronizedList(
+    private List<Employee> employeeList = Collections.synchronizedList(
             new ArrayList<>( List.of(
                     new Employee(id.incrementAndGet(), "Aba"),
                     new Employee(id.incrementAndGet(), "Samu")
             )));
 
-    public List<webSpring.Employee> listEmployees(){
+    public List<Employee> listEmployees(){
         return new ArrayList<>( employeeList );
     }
 

@@ -1,4 +1,4 @@
-package webSpring;
+package webSpring.model;
 
 public class Employee {
     private long id;

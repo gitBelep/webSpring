@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title of the page</title>
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/resources/css/bootstrap.css}" />
-</head>
+
+<head th:replace="fragments/page :: header"> head -  - loading failed </head>
+
 <body>
-<!--<div th:text="${employeeList}"> Hát igen, message </div>-->
 <div class="container">
+
+    <h1 th:replace="fragments/page :: title"> title - loading failed </h1>
+    <div th:if="${message}" th:text="${message}" class = "alert alert-success"> I hope you won't see this here.. </div>
 
 <table class="table table-striped">
     <thead>
@@ -17,12 +16,22 @@
     <tbody>
     <th:block th:each="employee : ${employeeList}">
         <tr>
-            <td th:text="${employee.id}"></td>
+            <td> <a th:href="@{/employee/{id} (id = ${employee.id})}"
+                    th:text="'~ &nbsp;' + ${employee.id} +'&nbsp; ~'"> link - loading failed </a></td>
             <td th:text="${employee.name}"></td>
         </tr>
     </th:block>
     </tbody>
 </table>
+
+    <div class=form-group>
+        <label for="name-input"> Name </label>
+        <form th:action="@{/}" th:object="${employee}" method="POST">
+            <input th:field="*{name}" id="name-input" class="form-control" />
+
+            <button type="submit" class="btn btn-primary"> Create employee </button>
+        </form>
+    </div>
 
 </div>
 </body>

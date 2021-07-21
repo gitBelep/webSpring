@@ -1,12 +1,13 @@
 package webSpring.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import webSpring.Employee;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webSpring.backend.EmpService;
-
-import java.util.List;
+import webSpring.model.Employee;
 
 @Controller
 public class EmpController {
@@ -16,24 +17,32 @@ public class EmpController {
         this.empService = empService;
     }
 
-//    version: 0
-//    @RequestMapping("/")
-//    public ModelAndView listEmployees() {
-//        return new ModelAndView("index", "message", "Hello Thymeleaf!");
-//    }
+    @ModelAttribute
+    public Employee provideEmployee(){
+        return new Employee();
+    }
 
-//    version: 1
-//    @RequestMapping( "/" )
-//    public ModelAndView listEmployees(){
-//        return new ModelAndView("index", "employeeList",
-//                List.of( new Employee("A"),
-//                         new Employee("B")   ));
-//        }
+    @RequestMapping( value = "/", method = RequestMethod.POST )
+    public String saveEmployee(@ModelAttribute Employee employee, RedirectAttributes redirectAtt){
+        empService.saveEmployee( employee.getName() );
+        redirectAtt.addFlashAttribute("message",
+                "Employee has been saved: " + employee.getName());
+        return "redirect:/";
+    }
 
-    @RequestMapping( "/" )
+    @RequestMapping( value = "/", method = RequestMethod.GET )
     public ModelAndView listEmployees(){
         return new ModelAndView("index", "employeeList",
                 empService.listEmployees());
     }
+//version: 0
+//    @RequestMapping("/")
+//    public ModelAndView listEmployees() {
+//        return new ModelAndView("index", "message", "Hello Thymeleaf!"); }
+//version: 1
+//    @RequestMapping( "/" )
+//    public ModelAndView listEmployees(){
+//        return new ModelAndView("index", "employeeList",
+//            List.of( new Employee("A"), new Employee("B"))); }
 
 }

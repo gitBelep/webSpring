@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -22,10 +23,21 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private ApplicationContext appContext;
 
+    @Autowired
+    private TimeBasedAccessInterceptor timeBasedAccessInterceptor;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler( "/resources/**" )
             .addResourceLocations( "/resources/" );
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        //with @Bean here
+        registry.addInterceptor(clientLoggerHandlerInterceptor());
+        //with @Configuration on the class
+        registry.addInterceptor(timeBasedAccessInterceptor);
     }
 
     @Bean
@@ -51,6 +63,11 @@ public class WebConfig implements WebMvcConfigurer {
         spTempRes.setSuffix( ".html" );
         spTempRes.setTemplateMode( "HTML5" );
         return spTempRes;
+    }
+
+    @Bean
+    public ClientLoggerHandlerInterceptor clientLoggerHandlerInterceptor(){
+        return new ClientLoggerHandlerInterceptor();
     }
 
 }

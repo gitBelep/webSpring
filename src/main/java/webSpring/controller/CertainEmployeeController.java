@@ -1,5 +1,6 @@
 package webSpring.controller;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,13 +11,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webSpring.backend.EmpService;
 import webSpring.model.Employee;
 
+import java.util.Locale;
+
 @Controller
 @RequestMapping( "/employee" )
 public class CertainEmployeeController {
     private EmpService empService;
+    private MessageSource messageSource;
 
-    public CertainEmployeeController(EmpService empService) {
+    public CertainEmployeeController(EmpService empService, MessageSource messageSource) {
         this.empService = empService;
+        this.messageSource = messageSource;
     }
 
     @ModelAttribute
@@ -30,9 +35,10 @@ public class CertainEmployeeController {
     }
 
     @RequestMapping( value = "/{id}", method = RequestMethod.POST)
-    public String saveEMployee(@ModelAttribute Employee ee, RedirectAttributes redirectAttr){
+    public String saveEMployee(@ModelAttribute Employee ee, RedirectAttributes redirectAttr, Locale locale){
         empService.updateEmployee(ee);
-        redirectAttr.addFlashAttribute("message", "Employee has been modified: " + ee.getName());
+        String message = messageSource.getMessage("employee.modified", new Object[]{ee.getName()}, locale);
+        redirectAttr.addFlashAttribute("message", message);
         return "redirect:/";
     }
 
